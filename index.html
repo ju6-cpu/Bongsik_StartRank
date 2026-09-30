@@ -59,7 +59,6 @@
             border-radius: 16px;
             padding: 24px 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            overflow: hidden;
         }
 
         header h1 {
@@ -68,16 +67,12 @@
             color: var(--doctor-white);
             letter-spacing: -0.5px;
             line-height: 1.4;
-            position: relative;
-            z-index: 2;
         }
 
         header p {
             margin: 0 0 4px 0;
             color: var(--text-sub);
             font-size: 0.85rem;
-            position: relative;
-            z-index: 2;
         }
 
         .notice-text {
@@ -86,8 +81,6 @@
             margin-top: 6px;
             margin-bottom: 6px;
             font-weight: bold;
-            position: relative;
-            z-index: 2;
         }
 
         .collab-text {
@@ -95,8 +88,6 @@
             color: var(--text-sub);
             opacity: 0.8;
             margin-top: 8px;
-            position: relative;
-            z-index: 2;
         }
 
         .admin-trigger {
@@ -111,34 +102,10 @@
             color: var(--doctor-white);
             opacity: 0.3;
             transition: opacity 0.2s ease;
-            z-index: 5;
         }
 
         .admin-trigger:active {
             opacity: 1;
-        }
-
-        /* 픽셀 캠프파이어 감성 소품 */
-        .camp-scene {
-            position: relative;
-            height: 44px;
-            margin: 10px 0 -4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.85;
-        }
-
-        .camp-fire {
-            font-family: monospace;
-            font-size: 1.1rem;
-            letter-spacing: 4px;
-            animation: fireGlow 1.8s ease-in-out infinite alternate;
-        }
-
-        @keyframes fireGlow {
-            0% { text-shadow: 0 0 6px rgba(251, 146, 60, 0.4); transform: scale(1); }
-            100% { text-shadow: 0 0 14px rgba(251, 191, 36, 0.8); transform: scale(1.05); }
         }
 
         /* =========================
@@ -153,8 +120,6 @@
             border-radius: 12px;
             border: 1px dashed var(--boss-blue);
             text-align: center;
-            position: relative;
-            z-index: 2;
         }
 
         #passwordBox input {
@@ -319,29 +284,27 @@
             border-color: var(--boss-blue);
         }
 
-        /* 빠른 날짜 입력 단축 버튼 그룹 */
+        /* 날짜 단축 버튼 스타일 */
         .date-quick-btns {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            display: flex;
             gap: 4px;
             margin-top: 6px;
-            margin-bottom: 2px;
         }
 
-        .btn-quick {
-            padding: 6px 2px;
+        .btn-quick-date {
+            flex: 1;
+            padding: 6px 4px;
             background: rgba(56, 189, 248, 0.1);
             color: var(--boss-blue);
             border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: 7px;
-            font-size: 0.7rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
             font-weight: bold;
             cursor: pointer;
             font-family: 'Gowun Dodum', sans-serif;
-            text-align: center;
         }
 
-        .btn-quick:active {
+        .btn-quick-date:active {
             background: rgba(56, 189, 248, 0.25);
         }
 
@@ -371,7 +334,7 @@
             cursor: pointer;
         }
 
-        /* 백업 및 복구 섹션 */
+        /* 백업 및 복구 스타일 */
         .backup-section {
             margin-top: 15px;
             padding-top: 12px;
@@ -643,11 +606,6 @@
     <header>
         <button class="admin-trigger" onclick="togglePasswordBox()" title="관리자">⚪</button>
         <h1>우리동네 김봉식 첫시작일 순위표</h1>
-        
-        <div class="camp-scene" aria-hidden="true">
-            <div class="camp-fire">🔥 🏕️ 🔥</div>
-        </div>
-
         <p>[최종갱신 2026/09/27]</p>
         <div class="notice-text">=스샷으로 인증해주셔야 합니다=</div>
         <div id="updateInfo" class="collab-text">클라우드 최종 갱신일시 불러오는 중...</div>
@@ -691,13 +649,13 @@
         <div class="form-group">
             <label>게임 첫 시작일</label>
             <input type="date" id="inputDate">
-            <!-- 3번 요구사항: 빠른 날짜 입력 단축 버튼 -->
+            <!-- 3번 수정사항: 날짜 빠른 입력 단축 버튼 -->
             <div class="date-quick-btns">
-                <button type="button" class="btn-quick" onclick="setQuickDate(0)">오늘</button>
-                <button type="button" class="btn-quick" onclick="setQuickDate(1)">1년전</button>
-                <button type="button" class="btn-quick" onclick="setQuickDate(3)">3년전</button>
-                <button type="button" class="btn-quick" onclick="setQuickDate(5)">5년전</button>
-                <button type="button" class="btn-quick" onclick="setQuickDate(10)">10년전</button>
+                <button type="button" class="btn-quick-date" onclick="setQuickDate(0)">오늘</button>
+                <button type="button" class="btn-quick-date" onclick="setQuickDate(1)">1년전</button>
+                <button type="button" class="btn-quick-date" onclick="setQuickDate(3)">3년전</button>
+                <button type="button" class="btn-quick-date" onclick="setQuickDate(5)">5년전</button>
+                <button type="button" class="btn-quick-date" onclick="setQuickDate(10)">10년전(15년)</button>
             </div>
         </div>
 
@@ -709,7 +667,7 @@
         <button class="btn-submit" onclick="savePlayerRecord()">클라우드에 반영하기</button>
         <button class="btn-reset" onclick="resetAdminForm()">입력 초기화</button>
 
-        <!-- 1번 요구사항: 데이터 백업 및 복구(JSON) 섹션 -->
+        <!-- 1번 수정사항: 데이터 백업 및 복구(내보내기/불러오기) 섹션 -->
         <div class="backup-section">
             <label>📦 데이터 백업 및 복구 (JSON)</label>
             <textarea id="backupTextarea" rows="3" placeholder="내보내기를 누르면 전체 데이터가 표시됩니다. 또는 여기에 JSON을 붙여넣고 불러오기를 누르세요."></textarea>
@@ -829,13 +787,13 @@ function getFormattedDate() {
     }).format(new Date());
 }
 
-// 3번 요구사항 연동: 빠른 날짜 계산 함수
+// 3번 수정사항 관련: 날짜 단축 버튼 연동 함수
 function setQuickDate(yearsAgo) {
-    const now = new Date();
-    now.setFullYear(now.getFullYear() - yearsAgo);
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const dd = String(now.getDate()).padStart(2, '0');
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - yearsAgo);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
     document.getElementById('inputDate').value = `${yyyy}-${mm}-${dd}`;
 }
 
@@ -1063,7 +1021,7 @@ async function removePlayer(index) {
     renderRankings();
 }
 
-// 1번 요구사항 연동: 데이터 내보내기/불러오기 함수
+// 1번 수정사항 관련: 데이터 백업 내보내기/불러오기 함수
 function exportData() {
     const backupObj = {
         version: 1,
@@ -1075,7 +1033,7 @@ function exportData() {
     textarea.value = JSON.stringify(backupObj, null, 2);
     textarea.select();
     document.execCommand('copy');
-    alert("현재 첫시작일 데이터가 텍스트로 변환되었으며, 클립보드에 복사되었습니다!");
+    alert("전체 데이터가 텍스트로 변환되었으며 클립보드에 복사되었습니다!");
 }
 
 async function importData() {
@@ -1087,7 +1045,7 @@ async function importData() {
     try {
         const parsed = JSON.parse(textarea);
         if (parsed && Array.isArray(parsed.gim) && Array.isArray(parsed.nagongju)) {
-            if (confirm("붙여넣은 백업 데이터로 양 서버 랭킹을 교체하고 클라우드에 반영하시겠습니까?")) {
+            if (confirm("붙여넣은 백업 데이터로 전체 서버 순위를 교체하고 클라우드에 반영하시겠습니까?")) {
                 rankings.gim = parsed.gim;
                 rankings.nagongju = parsed.nagongju;
                 updatedAt = parsed.updatedAt || getFormattedDate();
@@ -1099,7 +1057,7 @@ async function importData() {
                 alert("데이터가 성공적으로 복구 및 반영되었습니다!");
             }
         } else {
-            alert("올바른 첫시작일 JSON 형식이 아닙니다.");
+            alert("올바른 시작일 순위표 JSON 형식이 아닙니다.");
         }
     } catch (e) {
         alert("JSON 파싱 오류가 발생했습니다. 텍스트를 확인해 주세요.");
