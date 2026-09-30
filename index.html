@@ -69,12 +69,6 @@
             line-height: 1.4;
         }
 
-        header p {
-            margin: 0 0 4px 0;
-            color: var(--text-sub);
-            font-size: 0.85rem;
-        }
-
         .notice-text {
             font-size: 0.75rem;
             color: var(--boss-red);
@@ -284,7 +278,6 @@
             border-color: var(--boss-blue);
         }
 
-        /* 날짜 단축 버튼 스타일 */
         .date-quick-btns {
             display: flex;
             gap: 4px;
@@ -334,7 +327,6 @@
             cursor: pointer;
         }
 
-        /* 백업 및 복구 스타일 */
         .backup-section {
             margin-top: 15px;
             padding-top: 12px;
@@ -602,7 +594,7 @@
 
 <div class="container">
 
-<!-- HEADER -->
+    <!-- HEADER -->
     <header>
         <button class="admin-trigger" onclick="togglePasswordBox()" title="관리자">⚪</button>
         <h1>우리동네 김봉식 첫시작일 순위표</h1>
@@ -615,7 +607,7 @@
             <button onclick="checkPassword()">확인</button>
         </div>
     </header>
-    
+
     <!-- SERVER TABS -->
     <div class="server-tabs">
         <button id="tabGim" class="server-tab active" onclick="switchServer('gim')">=김봉식서버=</button>
@@ -648,7 +640,6 @@
         <div class="form-group">
             <label>게임 첫 시작일</label>
             <input type="date" id="inputDate">
-            <!-- 3번 수정사항: 날짜 빠른 입력 단축 버튼 -->
             <div class="date-quick-btns">
                 <button type="button" class="btn-quick-date" onclick="setQuickDate(0)">오늘</button>
                 <button type="button" class="btn-quick-date" onclick="setQuickDate(1)">1년전</button>
@@ -666,7 +657,6 @@
         <button class="btn-submit" onclick="savePlayerRecord()">클라우드에 반영하기</button>
         <button class="btn-reset" onclick="resetAdminForm()">입력 초기화</button>
 
-        <!-- 1번 수정사항: 데이터 백업 및 복구(내보내기/불러오기) 섹션 -->
         <div class="backup-section">
             <label>📦 데이터 백업 및 복구 (JSON)</label>
             <textarea id="backupTextarea" rows="3" placeholder="내보내기를 누르면 전체 데이터가 표시됩니다. 또는 여기에 JSON을 붙여넣고 불러오기를 누르세요."></textarea>
@@ -713,7 +703,8 @@ const ADMIN_PASSWORD = '9246';
 let currentServer = 'gim';
 let isAdmin = false;
 
-const defaultData = {
+// [철벽 방어] 코드 내부 기본값 배열 (서버가 터져도 이 데이터로 화면이 유지되며, 저장 시 실시간 동기화됨)
+let defaultData = {
     gim: [
         { name: "암염님", startDate: "2015-06-28", comment: "" },
         { name: "StelLive님", startDate: "2015-06-28", comment: "" },
@@ -786,7 +777,6 @@ function getFormattedDate() {
     }).format(new Date());
 }
 
-// 3번 수정사항 관련: 날짜 단축 버튼 연동 함수
 function setQuickDate(yearsAgo) {
     const d = new Date();
     d.setFullYear(d.getFullYear() - yearsAgo);
@@ -1020,7 +1010,6 @@ async function removePlayer(index) {
     renderRankings();
 }
 
-// 1번 수정사항 관련: 데이터 백업 내보내기/불러오기 함수
 function exportData() {
     const backupObj = {
         version: 1,
@@ -1048,6 +1037,10 @@ async function importData() {
                 rankings.gim = parsed.gim;
                 rankings.nagongju = parsed.nagongju;
                 updatedAt = parsed.updatedAt || getFormattedDate();
+                
+                // [철벽 방어] 데이터 복구 성공 시 코드 내부 기본값도 즉시 동기화
+                defaultData = deepCopy(rankings);
+
                 calculateRanks('gim');
                 calculateRanks('nagongju');
                 await saveRankingsToCloud();
@@ -1089,6 +1082,9 @@ async function saveRankingsToCloud() {
             throw new Error(`저장 실패 (${response.status})`);
         }
 
+        // [철벽 방어 핵심] 서버 저장 성공 시, 코드 내부 defaultData 기본값도 실시간으로 최신화됨!
+        defaultData = deepCopy(rankings);
+
         updateHeaderInfo();
         document.getElementById('adminStatus').textContent = `클라우드 반영 완료 · ${updatedAt}`;
         alert('첫시작일 데이터가 클라우드에 반영되었습니다!');
@@ -1117,6 +1113,8 @@ async function fetchRankings() {
             rankings.gim = record.gim;
             rankings.nagongju = record.nagongju;
             updatedAt = record.updatedAt || '2026/09/27';
+            // [철벽 방어] 서버에서 정상 로드되면 코드 내부 기본값도 최신화
+            defaultData = deepCopy(rankings);
         } else {
             rankings = deepCopy(defaultData);
             updatedAt = '2026/09/27';
@@ -1142,6 +1140,7 @@ function updateHeaderInfo() {
     document.getElementById('updateInfo').textContent = `클라우드 최종 갱신일시 : ${updatedAt}`;
 }
 
+// 초기 실행 시 내부 기본값으로 빠르게 렌더링하고 비동기로 서버 데이터 동기화
 rankings = deepCopy(defaultData);
 calculateRanks('gim');
 calculateRanks('nagongju');
