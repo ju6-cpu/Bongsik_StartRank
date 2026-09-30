@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>우리동네 김봉식 첫시작일 순위표</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --doctor-white: #f8fafc;
+            --boss-blue: #38bdf8;
+            --boss-green: #34d399;
+            --boss-red: #fb7185;
+            --border-color: #1e293b;
+
+            --gold: #fbbf24;
+            --silver: #cbd5e1;
+            --bronze: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Gowun Dodum', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 16px 12px;
+            display: flex;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+            position: relative;
+            background: linear-gradient(135deg, #172036, #0f172a);
+            border: 1px solid rgba(248, 250, 252, 0.15);
+            border-radius: 16px;
+            padding: 24px 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            margin: 0 0 8px 0;
+            font-size: 1.25rem;
+            color: var(--doctor-white);
+            letter-spacing: -0.5px;
+            line-height: 1.4;
+        }
+
+        header p {
+            margin: 0 0 4px 0;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+        }
+
+        .notice-text {
+            font-size: 0.75rem;
+            color: var(--boss-red);
+            margin-top: 6px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .collab-text {
+            font-size: 0.72rem;
+            color: var(--text-sub);
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        .admin-trigger {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 12px;
+            font-size: 0.8rem;
+            color: var(--doctor-white);
+            opacity: 0.3;
+            transition: opacity 0.2s ease;
+        }
+
+        .admin-trigger:active {
+            opacity: 1;
+        }
+
+        /* =========================
+           PASSWORD
+        ========================= */
+
+        #passwordBox {
+            display: none;
+            margin-top: 14px;
+            background: rgba(11, 15, 25, 0.98);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed var(--boss-blue);
+            text-align: center;
+        }
+
+        #passwordBox input {
+            width: 55%;
+            display: inline-block;
+            margin-right: 6px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        #passwordBox button {
+            width: 32%;
+            display: inline-block;
+            padding: 10px;
+            background-color: var(--boss-blue);
+            color: var(--bg-color);
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        /* =========================
+           SERVER TABS
+        ========================= */
+
+        .server-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+            padding: 5px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 13px;
+        }
+
+        .server-tab {
+            flex: 1;
+            padding: 11px 6px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--text-sub);
+            font-family: 'Gowun Dodum', sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .server-tab.active {
+            color: #06111c;
+            background: var(--boss-blue);
+            box-shadow: 0 3px 10px rgba(56, 189, 248, 0.18);
+        }
+
+        .server-tab:active {
+            transform: scale(0.98);
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* =========================
+           SERVER TITLE
+        ========================= */
+
+        .server-title {
+            margin: 0 0 4px 0;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .server-subtitle {
+            margin: 0 0 14px 0;
+            color: var(--text-sub);
+            font-size: 0.72rem;
+        }
+
+        .server-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 11px;
+            margin-bottom: 14px;
+            background: rgba(11, 15, 25, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+
+        .server-info-label {
+            color: var(--text-sub);
+            font-size: 0.72rem;
+        }
+
+        .server-info-count {
+            color: var(--boss-blue);
+            font-weight: bold;
+            font-size: 0.78rem;
+        }
+
+        /* =========================
+           ADMIN
+        ========================= */
+
+        #adminPanel {
+            display: none;
+            border-color: rgba(251, 113, 133, 0.4);
+        }
+
+        #adminPanel h2 {
+            font-size: 1rem;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            background-color: #0b0f19;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 1rem !important;
+            box-sizing: border-box;
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--boss-blue);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--boss-red);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Gowun Dodum', sans-serif;
+            margin-top: 6px;
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 11px;
+            margin-top: 8px;
+            background: transparent;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Gowun Dodum', sans-serif;
+            cursor: pointer;
+        }
+
+        .admin-status {
+            color: var(--text-sub);
+            font-size: 0.7rem;
+            margin-top: 9px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            margin-bottom: 14px;
+        }
+
+        .search-box input {
+            width: 100%;
+        }
+
+        /* =========================
+           RANKING
+        ========================= */
+
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ranking-item {
+            display: flex;
+            flex-direction: column;
+            background: rgba(11, 15, 25, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 12px 14px;
+            border-radius: 12px;
+        }
+
+        .ranking-main {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .rank-badge-wrapper {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .rank-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #1a233a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border: 1.5px solid var(--border-color);
+            color: var(--text-sub);
+            flex-shrink: 0;
+        }
+
+        .rank-badge.top-1 {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(217, 119, 6, 0.15));
+            color: #fde047;
+            border: 2px solid #fbbf24;
+        }
+
+        .rank-badge.top-2 {
+            background: linear-gradient(135deg, rgba(226, 232, 240, 0.2), rgba(148, 163, 184, 0.1));
+            color: #f8fafc;
+            border: 2px solid #cbd5e1;
+        }
+
+        .rank-badge.top-3 {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(180, 83, 9, 0.1));
+            color: #fb923c;
+            border: 2px solid #f59e0b;
+        }
+
+        .player-detail {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: bold;
+            font-size: 0.92rem;
+            margin-bottom: 2px;
+            word-break: break-all;
+            color: var(--text-main);
+        }
+
+        .player-start {
+            font-size: 0.74rem;
+            color: var(--text-sub);
+        }
+
+        .rank-1 .player-name {
+            font-size: 1.02rem;
+            color: #fde047;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+
+        .rank-1 .player-start {
+            color: #fef08a;
+        }
+
+        .rank-2 .player-name {
+            font-size: 0.98rem;
+            color: #f8fafc;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(248, 250, 252, 0.3);
+        }
+
+        .rank-2 .player-start {
+            color: #e2e8f0;
+        }
+
+        .rank-3 .player-name {
+            font-size: 0.96rem;
+            color: #fb923c;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(251, 146, 60, 0.3);
+        }
+
+        .rank-3 .player-start {
+            color: #fed7aa;
+        }
+
+        .days-box {
+            flex-shrink: 0;
+            text-align: right;
+            margin-left: 6px;
+        }
+
+        .days-number {
+            color: var(--boss-green);
+            font-size: 0.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .days-label {
+            color: #64748b;
+            font-size: 0.62rem;
+            margin-top: 1px;
+            white-space: nowrap;
+        }
+
+        .comment-box {
+            margin-top: 8px;
+            font-size: 0.76rem;
+            color: #cbd5e1;
+            background: rgba(19, 27, 46, 0.7);
+            padding: 7px 10px;
+            border-radius: 8px;
+            border-left: 2.5px solid var(--boss-blue);
+            line-height: 1.4;
+            word-break: break-all;
+            text-align: center;
+        }
+
+        .comment-box.comment-1 {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 3px solid #fbbf24;
+            color: #fef08a;
+        }
+
+        .comment-box.comment-2 {
+            background: rgba(203, 213, 225, 0.1);
+            border-left: 3px solid #cbd5e1;
+            color: #f8fafc;
+        }
+
+        .comment-box.comment-3 {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid #f59e0b;
+            color: #fed7aa;
+        }
+
+        .delete-btn {
+            display: none;
+            margin-top: 8px;
+            width: 100%;
+            padding: 7px;
+            background: transparent;
+            color: var(--boss-red);
+            border: 1px solid rgba(251, 113, 133, 0.25);
+            border-radius: 8px;
+            font-family: 'Gowun Dodum', sans-serif;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        body.admin-mode .delete-btn {
+            display: block;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty-message {
+            text-align: center;
+            color: var(--text-sub);
+            padding: 24px 10px;
+            font-size: 0.8rem;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--text-sub);
+            margin-top: 20px;
+            opacity: 0.7;
+            line-height: 1.7;
+        }
+
+        .version {
+            margin-top: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <button class="admin-trigger" onclick="togglePasswordBox()" title="관리자">⚪</button>
+        <h1>우리동네 김봉식 첫시작일 순위표</h1>
+        <p>[최종갱신 2026/09/27]</p>
+        <div class="notice-text">=스샷으로 인증해주셔야 합니다=</div>
+        <div id="updateInfo" class="collab-text">클라우드 최종 갱신일시 불러오는 중...</div>
+        <div class="collab-text">[관리자 : 초봉식쉼터 물갈이 x 방장 민시은 콜라보]</div>
+
+        <div id="passwordBox">
+            <input type="password" id="adminPwd" placeholder="보안 암호">
+            <button onclick="checkPassword()">확인</button>
+        </div>
+    </header>
+
+    <!-- SERVER TABS -->
+    <div class="server-tabs">
+        <button id="tabGim" class="server-tab active" onclick="switchServer('gim')">=김봉식서버=</button>
+        <button id="tabNagongju" class="server-tab" onclick="switchServer('nagongju')">=나공주서버=</button>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="card" id="adminPanel">
+        <h2>🛠️ 첫시작일 데이터 관리</h2>
+        <div class="form-group">
+            <label>서버</label>
+            <select id="selectServer" onchange="onServerSelectChange()">
+                <option value="gim">김봉식서버</option>
+                <option value="nagongju">나공주서버</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>플레이어 선택</label>
+            <select id="selectPlayer" onchange="onSelectPlayerChange()">
+                <option value="NEW">+ 새로운 플레이어 등록</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>플레이어 이름</label>
+            <input type="text" id="inputName" placeholder="예: 암염님">
+        </div>
+
+        <div class="form-group">
+            <label>게임 첫 시작일</label>
+            <input type="date" id="inputDate">
+        </div>
+
+        <div class="form-group">
+            <label>비고</label>
+            <input type="text" id="inputComment" placeholder="예: (기기이전)">
+        </div>
+
+        <button class="btn-submit" onclick="savePlayerRecord()">클라우드에 반영하기</button>
+        <button class="btn-reset" onclick="resetAdminForm()">입력 초기화</button>
+        <div class="admin-status" id="adminStatus">관리자 모드</div>
+    </div>
+
+    <!-- RANKING -->
+    <div class="card">
+        <h2 class="server-title" id="rankingTitle">=김봉식서버=</h2>
+        <p class="server-subtitle" id="rankingSubtitle">첫 시작일이 빠른 순으로 정렬됩니다.</p>
+
+        <div class="server-info">
+            <span class="server-info-label">현재 등록 인원</span>
+            <span class="server-info-count" id="memberCount">0명</span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 닉네임 검색..." oninput="renderRankings()">
+        </div>
+
+        <div class="ranking-list" id="rankingList"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div>우리동네 김봉식 첫시작일 순위표</div>
+        <div class="version">Flashbong Seniority System v1.0</div>
+    </footer>
+
+</div>
+
+<script>
+const BIN_ID = '6aa3eab6ac6210605ac05f87';
+const API_KEY = '$2a$10$RmfWAiw2/bYaQ0kXs9tE/O5lorlwX9gAv9xybuHxsLunGPuGw4oFG';
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const ADMIN_PASSWORD = '9246';
+
+let currentServer = 'gim';
+let isAdmin = false;
+
+const defaultData = {
+    gim: [
+        { name: "암염님", startDate: "2015-06-28", comment: "" },
+        { name: "StelLive님", startDate: "2015-06-28", comment: "" },
+        { name: "데이세븐님", startDate: "2015-06-28", comment: "" },
+        { name: "앙찡님", startDate: "2015-07-01", comment: "" },
+        { name: "유디님", startDate: "2015-07-22", comment: "" },
+        { name: "재서비님", startDate: "2015-07-27", comment: "" },
+        { name: "우주대군주님", startDate: "2015-07-28", comment: "" },
+        { name: "무과금복귀유저부방장님", startDate: "2015-07-29", comment: "" },
+        { name: "9averiel님", startDate: "2015-08-09", comment: "" },
+        { name: "간식주면따라감님", startDate: "2015-08-12", comment: "" },
+        { name: "드가자님", startDate: "2015-08-22", comment: "" },
+        { name: "콧노래벤님", startDate: "2015-08-31", comment: "" },
+        { name: "야마하님", startDate: "2015-12-26", comment: "" },
+        { name: "바렐님", startDate: "2016-03-14", comment: "" },
+        { name: "겜안접음님", startDate: "2016-06-26", comment: "" },
+        { name: "김사덕님", startDate: "2016-09-01", comment: "" },
+        { name: "가가사님", startDate: "2016-09-15", comment: "" },
+        { name: "이나바라기님", startDate: "2016-12-31", comment: "" },
+        { name: "꼬냄님", startDate: "2017-03-09", comment: "" },
+        { name: "물갈이님", startDate: "2017-06-01", comment: "" },
+        { name: "심통부방장님", startDate: "2017-09-06", comment: "" },
+        { name: "왕과봉식님", startDate: "2017-11-19", comment: "" },
+        { name: "저", startDate: "2019-06-27", comment: "" },
+        { name: "천마봉식.님", startDate: "2020-02-14", comment: "" },
+        { name: "케르베로스님", startDate: "2023-04-12", comment: "(기기이전)" },
+        { name: "보노보노친구님", startDate: "2024-02-01", comment: "(실제는2015)" }
+    ],
+    nagongju: [
+        { name: "화랑굇수(나공주)님", startDate: "2025-05-21", comment: "" },
+        { name: "maf6352421님", startDate: "2026-02-05", comment: "" }
+    ]
+};
+
+let rankings = { gim: [], nagongju: [] };
+let updatedAt = "";
+
+function deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
+function escapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/'/g, '&#39;')
+        .replace(/"/g, '&quot;');
+}
+
+function getKSTDateString() {
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Seoul',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+    return formatter.format(new Date());
+}
+
+function getFormattedDate() {
+    return new Intl.DateTimeFormat('ko-KR', {
+        timeZone: 'Asia/Seoul',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    }).format(new Date());
+}
+
+function getPlayDays(startDate) {
+    const start = new Date(`${startDate}T00:00:00+09:00`);
+    const todayString = getKSTDateString();
+    const today = new Date(`${todayString}T00:00:00+09:00`);
+    const difference = Math.floor((today.getTime() - start.getTime()) / 86400000);
+    return difference + 1;
+}
+
+function calculateRanks(server = currentServer) {
+    const list = rankings[server];
+    list.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+    let rank = 0;
+    let previousDate = null;
+
+    list.forEach((player) => {
+        if (player.startDate !== previousDate) {
+            rank++;
+            previousDate = player.startDate;
+        }
+        player.calculatedRank = rank;
+    });
+}
+
+function switchServer(server) {
+    currentServer = server;
+    document.getElementById('tabGim').classList.toggle('active', server === 'gim');
+    document.getElementById('tabNagongju').classList.toggle('active', server === 'nagongju');
+    document.getElementById('selectServer').value = server;
+    document.getElementById('searchInput').value = '';
+
+    updateServerUI();
+    updatePlayerSelectOptions();
+    renderRankings();
+    resetAdminForm();
+}
+
+function updateServerUI() {
+    const isGim = currentServer === 'gim';
+    document.getElementById('rankingTitle').textContent = isGim ? '=김봉식서버=' : '=나공주서버=';
+    document.getElementById('memberCount').textContent = `${rankings[currentServer].length}명`;
+}
+
+function onServerSelectChange() {
+    const server = document.getElementById('selectServer').value;
+    switchServer(server);
+}
+
+function renderRankings() {
+    const listEl = document.getElementById('rankingList');
+    const searchKeyword = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    calculateRanks(currentServer);
+
+    const filtered = rankings[currentServer]
+        .map((player, originalIndex) => ({ ...player, originalIndex }))
+        .filter(player => player.name.toLowerCase().includes(searchKeyword));
+
+    if (filtered.length === 0) {
+        listEl.innerHTML = `<div class="empty-message">등록된 기록이 없습니다.</div>`;
+        return;
+    }
+
+    listEl.innerHTML = '';
+
+    filtered.forEach(player => {
+        const rank = player.calculatedRank;
+        let rankClass = '';
+        let rankStyleClass = `rank-${rank}`;
+        let commentClass = '';
+
+        if (rank === 1) {
+            rankClass = 'top-1';
+            commentClass = 'comment-1';
+        } else if (rank === 2) {
+            rankClass = 'top-2';
+            commentClass = 'comment-2';
+        } else if (rank === 3) {
+            rankClass = 'top-3';
+            commentClass = 'comment-3';
+        }
+
+        const playDays = getPlayDays(player.startDate);
+
+        // 요청 반영: "공통" 문구 없이 순수 등수 숫자만 표기
+        const rankText = `${rank}`;
+
+        let html = `
+            <div class="ranking-item">
+                <div class="ranking-main">
+                    <div class="rank-badge-wrapper">
+                        <div class="rank-badge ${rankClass}">${rankText}</div>
+                    </div>
+                    <div class="player-detail ${rankStyleClass}">
+                        <div class="player-name">${escapeHtml(player.name)}</div>
+                        <div class="player-start">시작일 : ${escapeHtml(player.startDate)}</div>
+                    </div>
+                    <div class="days-box">
+                        <div class="days-number">${playDays.toLocaleString('ko-KR')}일</div>
+                        <div class="days-label">플레이 기간</div>
+                    </div>
+                </div>
+        `;
+
+        if (player.comment) {
+            html += `<div class="comment-box ${commentClass}">${escapeHtml(player.comment)}</div>`;
+        }
+
+        if (isAdmin) {
+            html += `<button class="delete-btn" onclick="removePlayer(${player.originalIndex})">이 기록 삭제</button>`;
+        }
+
+        html += `</div>`;
+        listEl.innerHTML += html;
+    });
+}
+
+function togglePasswordBox() {
+    const box = document.getElementById('passwordBox');
+    box.style.display = box.style.display === 'block' ? 'none' : 'block';
+}
+
+function checkPassword() {
+    const pwd = document.getElementById('adminPwd').value;
+    if (pwd === ADMIN_PASSWORD) {
+        isAdmin = true;
+        document.getElementById('adminPanel').style.display = 'block';
+        document.getElementById('passwordBox').style.display = 'none';
+        document.getElementById('adminPwd').value = '';
+        document.body.classList.add('admin-mode');
+        updatePlayerSelectOptions();
+        renderRankings();
+        alert('관리자 모드가 승인되었습니다.');
+    } else {
+        alert('보안 암호가 올바르지 않습니다.');
+    }
+}
+
+function updatePlayerSelectOptions() {
+    const select = document.getElementById('selectPlayer');
+    select.innerHTML = '<option value="NEW">+ 새로운 플레이어 등록</option>';
+    rankings[currentServer].forEach((player, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${player.name} (시작일: ${player.startDate})`;
+        select.appendChild(option);
+    });
+}
+
+function onSelectPlayerChange() {
+    const value = document.getElementById('selectPlayer').value;
+    if (value === 'NEW') {
+        resetAdminForm(false);
+        return;
+    }
+    const player = rankings[currentServer][parseInt(value)];
+    if (!player) return;
+
+    document.getElementById('inputName').value = player.name;
+    document.getElementById('inputDate').value = player.startDate;
+    document.getElementById('inputComment').value = player.comment || '';
+}
+
+function resetAdminForm(changeSelect = true) {
+    if (changeSelect) {
+        document.getElementById('selectPlayer').value = 'NEW';
+    }
+    document.getElementById('inputName').value = '';
+    document.getElementById('inputDate').value = '';
+    document.getElementById('inputComment').value = '';
+}
+
+async function savePlayerRecord() {
+    const name = document.getElementById('inputName').value.trim();
+    const startDate = document.getElementById('inputDate').value;
+    const comment = document.getElementById('inputComment').value.trim();
+    const selected = document.getElementById('selectPlayer').value;
+
+    if (!name || !startDate) {
+        alert('이름과 게임 시작일을 정확히 입력해 주세요.');
+        return;
+    }
+
+    const today = getKSTDateString();
+    if (startDate > today) {
+        alert('미래 날짜는 시작일로 등록할 수 없습니다.');
+        return;
+    }
+
+    if (selected === 'NEW') {
+        const existing = rankings[currentServer].find(player => player.name === name);
+        if (existing) {
+            existing.startDate = startDate;
+            existing.comment = comment;
+        } else {
+            rankings[currentServer].push({ name, startDate, comment });
+        }
+    } else {
+        const index = parseInt(selected);
+        if (rankings[currentServer][index]) {
+            rankings[currentServer][index].name = name;
+            rankings[currentServer][index].startDate = startDate;
+            rankings[currentServer][index].comment = comment;
+        }
+    }
+
+    calculateRanks(currentServer);
+    await saveRankingsToCloud();
+    resetAdminForm();
+    updatePlayerSelectOptions();
+    renderRankings();
+}
+
+async function removePlayer(index) {
+    const player = rankings[currentServer][index];
+    if (!player) return;
+
+    const confirmed = confirm(`${player.name}님의 첫시작일 기록을 삭제하시겠습니까?`);
+    if (!confirmed) return;
+
+    rankings[currentServer].splice(index, 1);
+    await saveRankingsToCloud();
+    updatePlayerSelectOptions();
+    renderRankings();
+}
+
+async function saveRankingsToCloud() {
+    try {
+        calculateRanks('gim');
+        calculateRanks('nagongju');
+        updatedAt = getFormattedDate();
+
+        const payload = {
+            version: 1,
+            gim: rankings.gim,
+            nagongju: rankings.nagongju,
+            updatedAt: updatedAt
+        };
+
+        const response = await fetch(JSONBIN_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': API_KEY
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error(`저장 실패 (${response.status})`);
+        }
+
+        updateHeaderInfo();
+        document.getElementById('adminStatus').textContent = `클라우드 반영 완료 · ${updatedAt}`;
+        alert('첫시작일 데이터가 클라우드에 반영되었습니다!');
+    } catch (error) {
+        console.error('데이터 저장 실패:', error);
+        document.getElementById('adminStatus').textContent = '클라우드 저장에 실패했습니다.';
+        alert('저장 중 오류가 발생했습니다.');
+    }
+}
+
+async function fetchRankings() {
+    try {
+        const response = await fetch(`${JSONBIN_URL}/latest`, {
+            headers: { 'X-Master-Key': API_KEY },
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            throw new Error(`불러오기 실패 (${response.status})`);
+        }
+
+        const data = await response.json();
+        const record = data.record;
+
+        if (record && Array.isArray(record.gim) && Array.isArray(record.nagongju)) {
+            rankings.gim = record.gim;
+            rankings.nagongju = record.nagongju;
+            updatedAt = record.updatedAt || '2026/09/27';
+        } else {
+            rankings = deepCopy(defaultData);
+            updatedAt = '2026/09/27';
+        }
+
+        calculateRanks('gim');
+        calculateRanks('nagongju');
+        updateHeaderInfo();
+        updateServerUI();
+        updatePlayerSelectOptions();
+        renderRankings();
+    } catch (error) {
+        console.error('데이터 로드 실패:', error);
+        rankings = deepCopy(defaultData);
+        updatedAt = '2026/09/27';
+        updateHeaderInfo();
+        updateServerUI();
+        renderRankings();
+    }
+}
+
+function updateHeaderInfo() {
+    document.getElementById('updateInfo').textContent = `클라우드 최종 갱신일시 : ${updatedAt}`;
+}
+
+rankings = deepCopy(defaultData);
+calculateRanks('gim');
+calculateRanks('nagongju');
+updateServerUI();
+renderRankings();
+fetchRankings();
+</script>
+
+</body>
+</html>
